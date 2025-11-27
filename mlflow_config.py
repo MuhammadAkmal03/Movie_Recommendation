@@ -24,8 +24,8 @@ def setup_experiments():
     for exp_name in experiments:
         try:
             mlflow.create_experiment(exp_name)
-            print(f"✅ Created experiment: {exp_name}")
+            print(f"Created experiment: {exp_name}")
         except:
-            print(f"ℹ️  Experiment already exists: {exp_name}")
+            print(f"Experiment already exists: {exp_name}")
     
     return True
