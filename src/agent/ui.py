@@ -102,9 +102,16 @@ def render_agent_tab(models):
         del st.session_state.quick_prompt
         _process_message(prompt)
     
-    # Chat input
-    if prompt := st.chat_input("Ask me anything about movies..."):
+    # Chat input (using text_input since chat_input doesn't work in tabs)
+    col1, col2 = st.columns([5, 1])
+    with col1:
+        prompt = st.text_input("Ask me anything about movies...", key="agent_input", label_visibility="collapsed", placeholder="Ask me anything about movies...")
+    with col2:
+        send_button = st.button("Send", type="primary", key="send_agent")
+    
+    if send_button and prompt:
         _process_message(prompt)
+        st.rerun()
     
     # Clear chat button at bottom
     if st.session_state.chat_messages:  # Only show if there are messages
