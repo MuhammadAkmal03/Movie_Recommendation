@@ -7,16 +7,22 @@ from src.models.recommender import get_recommendations, search_by_keywords
 from src.utils.helpers import ensure_poster_url
 from src.utils.feedback import save_rating, get_feedback_stats
 from src.utils.ab_testing import get_ab_test_summary
+from src.agent.ui import render_agent_ui
+from src.utils.download_models import check_and_download_models
 
 # Load environment variables
 load_dotenv()
 
 # Page config
 st.set_page_config(
-    page_title="Movie Recommender", 
-    layout="centered",
-    page_icon="🎬"
+    page_title="AI Movie Recommender",
+    page_icon="🎬",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
+
+# Download models if missing (for Streamlit Cloud)
+check_and_download_models()
 
 # Custom CSS
 st.markdown("""
