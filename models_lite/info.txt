@@ -1,0 +1,6 @@
+version: content-only
+models: ['movies_tag.pkl', 'org_dataset.pkl', 'tfidf_matrix.pkl']
+total_size_mb: 62.52138328552246
+methods_available: ['Content Based Filtering']
+methods_disabled: ['Collaborative Filtering (KNN)', 'Collaborative Filtering (SVD)', 'Hybrid Recommendation']
+note: This is a lightweight version for deployment. Only content-based filtering is available.

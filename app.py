@@ -74,75 +74,16 @@ def main():
         """)
         
     # Create tabs for different modes
-    tab1, tab2, tab3, tab4 = st.tabs([
-        "🔍 NLP Search", 
-        "🎯 Movie-Based Recommendations", 
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "🎯 Movie-Based Recommendations",
+        "🤖 AI Assistant", 
+        "🔍 NLP Search",
         "📊 A/B Testing", 
         "📈 MLflow Metrics"
     ])
     
-    # Tab 1: Keyword Search
+    # Tab 1: Movie-Based Recommendations
     with tab1:
-        st.markdown("### Search Movies by Keywords")
-        st.markdown("Type anything: actor names, directors, genres, themes, or plot keywords!")
-        
-        # Search input
-        search_query = st.text_input(
-            "Enter your search:",
-            placeholder="e.g., 'Leonardo DiCaprio thriller' or 'space adventure'",
-            key="search_query"
-        )
-        
-        # Search button directly below input
-        if st.button("🔍 Search", type="primary", key="search_btn", use_container_width=True):
-            if not search_query or search_query.strip() == "":
-                st.warning("⚠️ Please enter a search query!")
-            else:
-                with st.spinner(f"Searching for '{search_query}'..."):
-                    results = search_by_keywords(search_query, models, n_results=5)
-                
-                if results:
-                    st.success(f"Found {len(results)} movies matching '{search_query}'")
-                    st.markdown("---")
-                    
-                    # Display results in single row (max 5)
-                    cols = st.columns(len(results))
-                    for idx, (title, poster_url, score) in enumerate(results):
-                        with cols[idx]:
-                            if poster_url:
-                                st.image(poster_url, use_container_width=True)
-                            else:
-                                st.image("assets/noimage.png", use_container_width=True)
-                            st.markdown(f"**{idx+1}. {title.title()}**")
-                            st.caption(f"Relevance: {score:.0%}")
-                            
-                            # Rating buttons with callbacks
-                            col_like, col_dislike = st.columns(2)
-                            
-                            like_key = f"like_search_{idx}_{search_query}"
-                            dislike_key = f"dislike_search_{idx}_{search_query}"
-                            
-                            with col_like:
-                                st.button(
-                                    "👍", 
-                                    key=like_key,
-                                    use_container_width=True,
-                                    on_click=save_rating,
-                                    args=(title, "like", search_query, "NLP Search")
-                                )
-                            with col_dislike:
-                                st.button(
-                                    "👎", 
-                                    key=dislike_key,
-                                    use_container_width=True,
-                                    on_click=save_rating,
-                                    args=(title, "dislike", search_query, "NLP Search")
-                                )
-                else:
-                    st.error(f"😕 No movies found for '{search_query}'. Try different keywords!")
-    
-    # Tab 2: Movie-Based Recommendations
-    with tab2:
         st.markdown("### Get Recommendations Based on a Movie")
         
         # Main UI
@@ -201,13 +142,28 @@ def main():
                             st.image(poster_url, use_container_width=True)
                         else:
                             st.image("assets/noimage.png", use_container_width=True)
-                        st.markdown(f"**{idx+1}. {title.title()}**")
+                        
+                        # Fixed height title using HTML/CSS
+                        display_title = title.title()
+                        st.markdown(
+                            f"""
+                            <div style="height: 60px; display: flex; align-items: center; margin-bottom: 8px;">
+                                <p style="margin: 0; font-weight: bold; font-size: 14px; line-height: 1.3;">
+                                    {idx+1}. {display_title}
+                                </p>
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
                         
                         # Show explanations
                         if explanations:
                             with st.expander("ℹ️ Why recommended?"):
                                 for explanation in explanations[:3]:  # Show top 3 reasons
                                     st.caption(f"✓ {explanation}")
+                        else:
+                            # Add empty space to maintain alignment when no explanations
+                            st.markdown('<div style="height: 48px;"></div>', unsafe_allow_html=True)
                         
                         # Rating buttons with callbacks
                         col_like, col_dislike = st.columns(2)
@@ -233,13 +189,94 @@ def main():
                             )
             else:
                 if "Collaborative" in method:
-                    st.error(f"😕 '{movie_name.title()}' wasn't in the collaborative filtering training set.")
+                    st.error(f"😕 '{movie_name.title()}' not found.")
                     st.info("💡 Try using **Content Based Filtering** or **Hybrid Recommendation** instead, or select a different movie.")
                 else:
                     st.error("😕 No recommendations found. Try another movie or method.")
     
-    # Tab 3: A/B Testing Dashboard
+    # Tab 2: AI Assistant
+    with tab2:
+        from src.agent.ui import render_agent_tab
+        render_agent_tab(models)
+    
+    # Tab 3: NLP Search
     with tab3:
+        st.markdown("### Search Movies by Keywords")
+        st.markdown("Type anything: actor names, directors, genres, themes, or plot keywords!")
+        
+        # Search input
+        search_query = st.text_input(
+            "Enter your search:",
+            placeholder="e.g., 'Leonardo DiCaprio thriller' or 'space adventure'",
+            key="search_query"
+        )
+        
+        # Search button directly below input
+        if st.button("🔍 Search", type="primary", key="search_btn", use_container_width=True):
+            if not search_query or search_query.strip() == "":
+                st.warning("⚠️ Please enter a search query!")
+            else:
+                with st.spinner(f"Searching for '{search_query}'..."):
+                    results = search_by_keywords(search_query, models, n_results=5)
+                
+                if results:
+                    st.success(f"Found {len(results)} movies matching '{search_query}'")
+                    st.markdown("---")
+                    
+                    # Display results in single row (max 5)
+                    cols = st.columns(len(results))
+                    for idx, (title, poster_url, score) in enumerate(results):
+                        with cols[idx]:
+                            if poster_url:
+                                st.image(poster_url, use_container_width=True)
+                            else:
+                                st.image("assets/noimage.png", use_container_width=True)
+                            # Fixed height title using HTML/CSS
+                            display_title = title.title()
+                            if len(display_title) > 40:
+                                display_title = display_title[:37] + "..."
+                            st.markdown(
+                                f"""
+                                <div style="height: 60px; display: flex; align-items: center; margin-bottom: 8px;">
+                                    <p style="margin: 0; font-weight: bold; font-size: 14px; line-height: 1.3;">
+                                        {idx+1}. {display_title}
+                                    </p>
+                                </div>
+                                """,
+                                unsafe_allow_html=True
+                            )
+                            st.caption(f"Relevance: {score:.0%}")
+                            
+                            # Rating buttons with callbacks
+                            col_like, col_dislike = st.columns(2)
+                            
+                            like_key = f"like_search_{idx}_{search_query}"
+                            dislike_key = f"dislike_search_{idx}_{search_query}"
+                            
+                            with col_like:
+                                st.button(
+                                    "👍", 
+                                    key=like_key,
+                                    use_container_width=True,
+                                    on_click=save_rating,
+                                    args=(title, "like", search_query, "NLP Search")
+                                )
+                            with col_dislike:
+                                st.button(
+                                    "👎", 
+                                    key=dislike_key,
+                                    use_container_width=True,
+                                    on_click=save_rating,
+                                    args=(title, "dislike", search_query, "NLP Search")
+                                )
+                else:
+                    st.error(f"😕 No movies found for '{search_query}'. Try different keywords!")
+    
+    # Tab 4: A/B Testing Dashboard
+    with tab4:
+
+    
+
         st.markdown("### 📊 A/B Testing: Method Performance Comparison")
         st.markdown("Compare which recommendation method users like most based on feedback data.")
         
@@ -288,15 +325,13 @@ def main():
             else:
                 st.warning("⚠️ Room for improvement. Analyze user feedback.")
     
-    # Tab 4: MLflow Metrics
-    with tab4:
+    # Tab 5: MLflow Metrics
+    with tab5:
         st.markdown("### 📈 MLflow Experiment Tracking")
         st.markdown("Track model training, recommendations, and A/B tests with MLflow.")
         
         # Instructions
         st.info("""
-        **MLflow UI**: Run `mlflow ui` in terminal to view detailed metrics at http://localhost:5000
-        
         All recommendation requests and user ratings are automatically logged to MLflow.
         """)
         

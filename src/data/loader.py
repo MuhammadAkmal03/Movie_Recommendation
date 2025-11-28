@@ -27,10 +27,10 @@ def load_models():
             
         # Load collaborative filtering models (optional for basic functionality)
         try:
-            with open(config.MOVIE_USER_MATRIX_PATH, "rb") as f:
-                models['movie_user_matrix'] = pickle.load(f)
+            with open(config.MOVIE_INDEX_PATH, "rb") as f:
+                models['movie_index'] = pickle.load(f)  # Just the index, not the full matrix
             with open(config.CSR_MATRIX_PATH, "rb") as f:
-                models['csr_matrix'] = pickle.load(f)
+                models['csr_out_matrix'] = pickle.load(f)
             with open(config.KNN_MODEL_PATH, "rb") as f:
                 models['knn_model'] = pickle.load(f)
             with open(config.SVD_SIMILARITY_PATH, "rb") as f:
