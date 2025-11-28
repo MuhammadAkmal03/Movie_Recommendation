@@ -76,16 +76,16 @@ def render_agent_tab(models):
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        if st.button("💎 Hidden Gems", use_column_width=True):
+        if st.button("💎 Hidden Gems"):
             st.session_state.quick_prompt = "Recommend a highly rated underrated movie that I might have missed"
     with col2:
-        if st.button("🍿 Blockbusters", use_column_width=True):
+        if st.button("🍿 Blockbusters"):
             st.session_state.quick_prompt = "What are the top grossing movies of the last decade?"
     with col3:
-        if st.button("😂 Comedy Night", use_column_width=True):
+        if st.button("😂 Comedy Night"):
             st.session_state.quick_prompt = "Suggest some hilarious comedy movies for a movie night"
     with col4:
-        if st.button("🤯 Mind Blowers", use_column_width=True):
+        if st.button("🤯 Mind Blowers"):
             st.session_state.quick_prompt = "Show me movies with crazy plot twists like Inception or Shutter Island"
     
     
@@ -108,7 +108,7 @@ def render_agent_tab(models):
     
     # Clear chat button at bottom
     if st.session_state.chat_messages:  # Only show if there are messages
-        if st.button("🗑️ Clear Chat History", use_column_width=True, type="secondary"):
+        if st.button("🗑️ Clear Chat History", type="secondary"):
             st.session_state.chat_messages = []
             st.session_state.agent.reset_conversation()
             st.rerun()

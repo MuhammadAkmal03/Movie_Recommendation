@@ -212,7 +212,7 @@ def main():
         )
         
         # Search button directly below input
-        if st.button("🔍 Search", type="primary", key="search_btn", use_column_width=True):
+        if st.button("🔍 Search", type="primary", key="search_btn"):
             if not search_query or search_query.strip() == "":
                 st.warning("⚠️ Please enter a search query!")
             else:
