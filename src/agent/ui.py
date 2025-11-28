@@ -111,7 +111,6 @@ def render_agent_tab(models):
     
     if send_button and prompt:
         _process_message(prompt)
-        st.rerun()
     
     # Clear chat button at bottom
     if st.session_state.chat_messages:  # Only show if there are messages
