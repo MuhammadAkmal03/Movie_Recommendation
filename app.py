@@ -139,9 +139,9 @@ def main():
                     
                     with cols[idx]:
                         if poster_url:
-                            st.image(poster_url, use_container_width=True)
+                            st.image(poster_url, use_column_width=True)
                         else:
-                            st.image("assets/noimage.png", use_container_width=True)
+                            st.image("assets/noimage.png", use_column_width=True)
                         
                         # Fixed height title using HTML/CSS
                         display_title = title.title()
@@ -175,7 +175,7 @@ def main():
                             st.button(
                                 "👍", 
                                 key=like_key,
-                                use_container_width=True,
+                                use_column_width=True,
                                 on_click=save_rating,
                                 args=(title, "like", movie_name, method)
                             )
@@ -183,7 +183,7 @@ def main():
                             st.button(
                                 "👎", 
                                 key=dislike_key,
-                                use_container_width=True,
+                                use_column_width=True,
                                 on_click=save_rating,
                                 args=(title, "dislike", movie_name, method)
                             )
@@ -212,7 +212,7 @@ def main():
         )
         
         # Search button directly below input
-        if st.button("🔍 Search", type="primary", key="search_btn", use_container_width=True):
+        if st.button("🔍 Search", type="primary", key="search_btn", use_column_width=True):
             if not search_query or search_query.strip() == "":
                 st.warning("⚠️ Please enter a search query!")
             else:
@@ -228,9 +228,9 @@ def main():
                     for idx, (title, poster_url, score) in enumerate(results):
                         with cols[idx]:
                             if poster_url:
-                                st.image(poster_url, use_container_width=True)
+                                st.image(poster_url, use_column_width=True)
                             else:
-                                st.image("assets/noimage.png", use_container_width=True)
+                                st.image("assets/noimage.png", use_column_width=True)
                             # Fixed height title using HTML/CSS
                             display_title = title.title()
                             if len(display_title) > 40:
@@ -257,7 +257,7 @@ def main():
                                 st.button(
                                     "👍", 
                                     key=like_key,
-                                    use_container_width=True,
+                                    use_column_width=True,
                                     on_click=save_rating,
                                     args=(title, "like", search_query, "NLP Search")
                                 )
@@ -265,7 +265,7 @@ def main():
                                 st.button(
                                     "👎", 
                                     key=dislike_key,
-                                    use_container_width=True,
+                                    use_column_width=True,
                                     on_click=save_rating,
                                     args=(title, "dislike", search_query, "NLP Search")
                                 )
@@ -304,7 +304,7 @@ def main():
                     "Like Rate": f"{method_data['like_rate']}%"
                 })
             
-            st.dataframe(pd.DataFrame(methods_data), use_container_width=True, hide_index=True)
+            st.dataframe(pd.DataFrame(methods_data), use_column_width=True, hide_index=True)
             
             # Insights
             st.markdown("---")
