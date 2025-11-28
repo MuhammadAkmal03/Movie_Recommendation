@@ -12,7 +12,7 @@ from src.models.recommender import get_recommendations, search_by_keywords
 from src.utils.helpers import ensure_poster_url
 from src.utils.feedback import save_rating, get_feedback_stats
 from src.utils.ab_testing import get_ab_test_summary
-from src.agent.ui import render_agent_ui
+from src.agent.ui import render_agent_tab
 from src.utils.download_models import check_and_download_models
 
 # Load environment variables
