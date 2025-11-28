@@ -128,7 +128,7 @@ def recommend_hybrid(movie_name, weights=None, n_recommendations=5):
     total_weight = sum(weights.values())
     weights = {k: v/total_weight for k, v in weights.items()}
     
-    # Get recommendations from each method (get more than needed for diversity)
+    # Get recommendations from each method 
     n_fetch = n_recommendations * 3
     
     content_recs = recommend_content(movie_name)

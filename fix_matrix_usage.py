@@ -9,8 +9,6 @@ with open('src/models/recommender.py', 'r', encoding='utf-8') as f:
     content = f.read()
 
 # Replace movie_user_matrix references
-# The key insight: we only need the INDEX, not the full dense matrix
-# The CSR matrix already has the data
 
 replacements = [
     # In recommend_knn function
@@ -48,7 +46,7 @@ for old, new in replacements:
 with open('src/models/recommender.py', 'w', encoding='utf-8') as f:
     f.write(content)
 
-print("✅ Updated src/models/recommender.py")
+print(" Updated src/models/recommender.py")
 print("\nChanges made:")
 print("- Replaced movie_user_matrix with csr_out_matrix + movie_index")
 print("- movie_index is just the list of movie IDs (very small, ~few KB)")

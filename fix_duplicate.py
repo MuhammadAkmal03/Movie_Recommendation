@@ -15,4 +15,4 @@ for line in lines:
 with open('src/models/recommender.py', 'w', encoding='utf-8') as f:
     f.writelines(new_lines)
 
-print("✅ Removed incorrect 'csr_matrix' assignment")
+print(" Removed incorrect 'csr_matrix' assignment")

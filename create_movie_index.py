@@ -20,10 +20,6 @@ movie_index = movie_user_matrix.index
 with open('models_lite/movie_index.pkl', 'wb') as f:
     pickle.dump(movie_index, f)
 
-print(f"✅ Created movie_index.pkl ({len(movie_index)} movies)")
-print(f"   Size: ~{len(movie_index) * 8 / 1024:.1f} KB (vs 2.5GB for full matrix)")
+print(f"Created movie_index.pkl ({len(movie_index)} movies)")
+print(f"Size: ~{len(movie_index) * 8 / 1024:.1f} KB (vs 2.5GB for full matrix)")
 
-print("\nStep 2: You can now DELETE movie_user_matrix.pkl")
-print("The app will use:")
-print("  - csr_out_matrix.pkl (172MB) - the actual data")
-print("  - movie_index.pkl (~few KB) - just the movie IDs")
