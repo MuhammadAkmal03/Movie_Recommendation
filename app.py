@@ -175,7 +175,6 @@ def main():
                             st.button(
                                 "👍", 
                                 key=like_key,
-                                use_column_width=True,
                                 on_click=save_rating,
                                 args=(title, "like", movie_name, method)
                             )
@@ -183,7 +182,6 @@ def main():
                             st.button(
                                 "👎", 
                                 key=dislike_key,
-                                use_column_width=True,
                                 on_click=save_rating,
                                 args=(title, "dislike", movie_name, method)
                             )
