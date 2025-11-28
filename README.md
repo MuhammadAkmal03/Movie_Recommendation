@@ -1,3 +1,14 @@
+---
+title: AI Movie Recommender
+emoji: 🎬
+colorFrom: red
+colorTo: purple
+sdk: streamlit
+sdk_version: "1.28.0"
+app_file: app.py
+pinned: false
+---
+
 # 🎬 AI-Powered Movie Recommendation System
 
 An intelligent movie recommendation engine featuring a **ReAct-based AI Agent**, hybrid filtering algorithms, explainable recommendations, and comprehensive A/B testing analytics.
